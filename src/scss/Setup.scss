@@ -1,0 +1,47 @@
+@import "./variables";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#background-div {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(44, 62, 80, 1.0);
+  text-align: center;
+  #setup-container {
+    background-color: white;
+    margin: 0 auto;
+    // padding-top: ;
+    width: 800px;
+    border-radius: 15px;
+    h2 {
+      font-size: 4rem;
+    }
+    input[type=radio] {
+      display: none;
+    }
+    input[type=radio]:checked + label {
+      color: green;
+    }
+    label {
+      margin: 2rem;
+      border: 3px solid gray;
+      border-radius: 5px;
+      font-size: 2rem;
+      padding: 1rem;
+    }
+    .radio {
+      margin: 3rem 0 ;
+    }
+    button {
+      color: white;
+      background-color: lightgreen;
+      border-radius: 5px;
+      padding: 1rem 2rem;
+      font-size: 2rem;
+
+    }
+  }
+}
