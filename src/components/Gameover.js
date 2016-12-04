@@ -21,7 +21,7 @@ export default class Gameover extends Component {
     return (
       <div style={{position: 'relative', height: '100%', width: '100%', backgroundColor: 'rgba(50, 50, 50, .7)'}} >
         <div style={style}>
-          <h1>{line[this.props.gameOver]}</h1>
+          <h1>{line[this.props.gameOver[1]]}</h1>
           {this.props.children}
         </div>
       </div>
