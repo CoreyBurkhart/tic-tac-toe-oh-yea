@@ -1,7 +1,43 @@
 import React, { Component } from 'react';
-
+import '../css/gameover.css'
+import giphy from '../media/giphy.png';
 
 export default class Gameover extends Component {
+
+  // TODO: return the img with an onload event that will remove a loader and reveal the gif
+
+  componentDidMount() {
+    this.getGif(this.props.gameOver[1])
+      .then((response => response.json()))
+        .then((response) => {
+          const r = Math.floor(Math.random() * 25);
+          const gif = response.data[r].images.original;
+          const url = gif.url;
+                // width = gif.width,
+                // height = gif.height
+          this.img.src = url;
+          window.setTimeout(() => {
+            this.img.style = 'visibility: visible';
+          }, 2000)
+    })
+  }
+
+  async getGif(result) {
+    const BASE = 'http://api.giphy.com/v1/gifs/search?q=',
+          KEY = '&api_key=dc6zaTOxFJmzC';
+    let query;
+
+    if(result === 'player') {
+      query = 'celebration'
+    } else if(result === 'ai') {
+      query = 'disappointed'
+    } else {
+      query = 'confused'
+    }
+
+    const url = BASE + query + KEY;
+    return fetch(url);
+  }
 
   render() {
     const line = {
@@ -10,19 +46,15 @@ export default class Gameover extends Component {
         draw: "Draw. Try again"
       }
 
-      const style = {
-        width: '60%',
-        height: '60%',
-        position: 'absolute',
-        top: '20%',
-        left: '20%'
-      }
-
     return (
-      <div style={{position: 'relative', height: '100%', width: '100%', backgroundColor: 'rgba(50, 50, 50, .7)'}} >
-        <div style={style}>
-          <h1>{line[this.props.gameOver[1]]}</h1>
-          {this.props.children}
+      <div className='gameover-container'>
+        <div className='gameover-content-container'>
+          <section>
+            <h1>{line[this.props.gameOver[1]]}</h1>
+            <img ref={(img => this.img = img)} style={{visibility: 'hidden'}} alt='celebratory gif!'/>
+            <img src={giphy} />
+            {this.props.children}
+          </section>
         </div>
       </div>
     )

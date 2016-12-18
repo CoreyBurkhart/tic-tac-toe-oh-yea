@@ -1,0 +1,22 @@
+.gameover-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  display: table;
+  z-index: 200;
+}
+.gameover-content-container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.gameover-content-container section {
+  * {
+    display: block;
+    margin: 2rem auto;
+  }
+}
