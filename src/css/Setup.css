@@ -1,36 +1,27 @@
 * {
-  margin: 0;
-  padding: 0; }
+  padding: 0;
+  margin: 0; }
 
-#background-div {
+#setup-background {
+  width: 100vw;
   height: 100vh;
-  width: 100%;
-  background-color: #2c3e50;
+  background: salmon;
+  display: table;
   text-align: center; }
-  #background-div #setup-container {
-    background-color: white;
-    margin: 0 auto;
-    width: 800px;
-    border-radius: 15px; }
-    #background-div #setup-container h2 {
-      font-size: 4rem; }
-    #background-div #setup-container input[type=radio] {
-      display: none; }
-    #background-div #setup-container input[type=radio]:checked + label {
-      color: green; }
-    #background-div #setup-container label {
-      margin: 2rem;
-      border: 3px solid gray;
-      border-radius: 5px;
-      font-size: 2rem;
-      padding: 1rem; }
-    #background-div #setup-container .radio {
-      margin: 3rem 0; }
-    #background-div #setup-container button {
-      color: white;
-      background-color: lightgreen;
-      border-radius: 5px;
-      padding: 1rem 2rem;
-      font-size: 2rem; }
+
+#setup-container {
+  height: 100%;
+  width: 100%;
+  display: table-cell;
+  vertical-align: middle; }
+  #setup-container .input-container {
+    font-size: 5rem;
+    color: white; }
+    #setup-container .input-container label {
+      display: inline-block;
+      margin: 0 5rem;
+      width: 100px;
+      height: 100px;
+      cursor: pointer; }
 
 /*# sourceMappingURL=Setup.css.map */

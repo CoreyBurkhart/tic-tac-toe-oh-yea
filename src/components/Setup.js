@@ -3,26 +3,26 @@ import '../css/Setup.css';
 
 export default class Setup extends Component {
 
-  render() {
-    const style = {
-      width: '60%',
-      height: '60%',
-      position: 'absolute',
-      top: '20%',
-      left: '20%'
-    }
 
+  startWithProps(e) {
+    const {x, o} = this.refs;
+    const team = x.checked ? x.id : o.id;
+    this.props.setTeam(team);
+    this.props.start();
+  }
+
+  render() {
     return (
-      <div id="background-div" style={{position: 'relative'}}>
-        <div id="setup-container" style={style}>
-          <h2>Choose Your Side!</h2>
-          <div className='radio'>
-            <input id='x' name="team" onChange={this.props.setTeam} className="team active" type="radio" defaultChecked/>
+      <div id="setup-background">
+        <div id="setup-container" >
+          {/* <h1>Choose Your Side!</h1> */}
+          <div className='input-container'>
+            <input id='x' ref='x' name="team" className="team" type="radio" defaultChecked/>
             <label htmlFor="x">X</label>
-            <input id='o' name="team" onChange={this.props.setTeam} className="team" type="radio" />
+            <input id='o' ref='o' name="team" className="team" type="radio" />
             <label htmlFor="o">O</label>
           </div>
-          <button onClick={this.props.start} >Start Game</button>
+          <button onClick={this.startWithProps.bind(this)} >Start</button>
         </div>
       </div>
     );

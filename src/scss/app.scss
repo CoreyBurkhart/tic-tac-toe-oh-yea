@@ -1,6 +1,74 @@
 @import "_variables";
 
-.App {
-  margin-top: 10vh;
+* {
+  text-transform: uppercase;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: salmon;
   text-align: center;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+canvas {
+  margin-top: 15vh;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  margin-bottom: 4rem;
+}
+
+button {
+  background-color: salmon;
+  color: white;
+  border: thick solid white;
+  padding: 1rem 4rem;
+  margin: 4rem auto;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 5px;
+  outline: none;
+}
+button:hover {
+  animation: .1s shake linear;
+  cursor: pointer;
+}
+
+input:checked + label {
+  border-bottom: thick solid white;
+  position: relative;
+  animation: 1s linear infinite selected;
+}
+
+@keyframes selected {
+  to {
+    border-bottom-color: salmon;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(-10deg);
+  }
+}
+
+@media (min-width: 600px) {
+    h1 {
+      font-size: 4rem;
+    }
 }

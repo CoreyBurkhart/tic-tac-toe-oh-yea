@@ -19,4 +19,40 @@
     display: block;
     margin: 2rem auto;
   }
+  h1 {
+    color: salmon;
+  }
+  img {
+    position: relative;
+  }
+  #loader {
+    display: table;
+    background-color: white;
+    span {
+      border-radius: 100%;
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      animation: 1s ease infinite load;
+      border: 4px solid white;
+      border-top: 4px solid red;
+    }
+  }
+  .loading {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+  .loaded {
+    opacity: 1;
+  }
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(0deg) ;
+    border-top-color: red;
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

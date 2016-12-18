@@ -13,11 +13,11 @@ export default class Gameover extends Component {
           const r = Math.floor(Math.random() * 25);
           const gif = response.data[r].images.original;
           const url = gif.url;
-                // width = gif.width,
-                // height = gif.height
+          this.width = gif.width;
+          this.height = gif.height;
           this.img.src = url;
           window.setTimeout(() => {
-            this.img.style = 'visibility: visible';
+            // this.img.style = 'visibility: visible';
           }, 2000)
     })
   }
@@ -39,11 +39,17 @@ export default class Gameover extends Component {
     return fetch(url);
   }
 
+  loadHandler(e) {
+    this.img.style = 'position: static';
+    this.img.classList -= 'loaded';
+    this.loader.style = 'display: none'
+  }
+
   render() {
     const line = {
         player: "Congratulations! You won!",
-        ai: "Awe, try again! you'll do better...hopefully.",
-        draw: "Draw. Try again"
+        ai: "C'mon really??",
+        draw: "Well. You didn't lose."
       }
 
     return (
@@ -51,7 +57,10 @@ export default class Gameover extends Component {
         <div className='gameover-content-container'>
           <section>
             <h1>{line[this.props.gameOver[1]]}</h1>
-            <img ref={(img => this.img = img)} style={{visibility: 'hidden'}} alt='celebratory gif!'/>
+            <div id='loader' ref={(div => this.loader = div)} style={{width: this.width + 'px', height: this.height + 'px'}}>
+              <span />
+            </div>
+            <img className='loading' ref={(img => this.img = img)} onLoad={this.loadHandler.bind(this)} style={{display: 'none', position: 'absolute', top: '0', left: '0'}} alt='celebratory gif!'/>
             <img src={giphy} />
             {this.props.children}
           </section>

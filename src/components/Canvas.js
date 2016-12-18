@@ -32,7 +32,8 @@ export default class Canvas extends Component {
 
     let tic = (type, location) => {
       let ctx = this.refs.canvas.getContext('2d')
-      ctx.lineWidth = 10;
+      ctx.lineWidth = 5;
+      ctx.strokeStyle = 'white';
 
       if(type === 'o') {
         ctx.beginPath();
@@ -93,8 +94,8 @@ export default class Canvas extends Component {
     // ctx.clearRect(0, 0, size, size);
     console.log('cleared');
     // canvas styles
-    ctx.fillStyle = 'black';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 5;
     //draw tictactoe grid according to size of canvas
     ctx.beginPath();
     ctx.moveTo(lineSpacing, 0);

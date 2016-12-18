@@ -52,13 +52,13 @@ class App extends Component {
 
   handleClick(event) {
     //this should not happen EVERY click
+    if(this.state.playerTurn && this.state.started) {
     let typeP = this.state.teams.player,
         typeAi = this.state.teams.ai,
         loc = util.getClickLocation(event),
         box = util.find(loc, false, this.state.canvasSize),
         ai = new Ai();
 
-    if(this.state.playerTurn && this.state.started) {
       this.setState({
         'gameStateArray': this.updateArray(this.state.gameStateArray, box, typeP), 'location': [box , loc]
       },
@@ -135,21 +135,17 @@ class App extends Component {
     this.setState({'started': !this.state.started});
   }
 
-  setTeam(e) {
-    let t = e.target.id;
-    if(e.target.checked === true) {
-      this.setState({'teams': {'player': t, 'ai': t === 'x' ? 'o' : 'x'}});
-    }
+  setTeam(team) {
+    this.setState({'teams': {'player': team, 'ai': team === 'x' ? 'o' : 'x'}});
   }
 
   render() {
     let gameover;
 
     if (this.state.gameOver[0]) {
-      gameover =  (<Gameover  gameOver={this.state.gameOver}>
-              <button onClick={this.reset} >
-                play again
-              </button>
+      gameover = (<Gameover  gameOver={this.state.gameOver}>
+                    <button onClick={this.reset} >play again
+            </button>
             </Gameover>)
     } else {
       gameover = null;
