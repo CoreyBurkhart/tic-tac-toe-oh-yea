@@ -12,16 +12,13 @@ export default class Canvas extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    // console.log(nextProps);
     let size =  this.props.canvasSize === nextProps.canvasSize ? this.props.canvasSize : nextProps.canvasSize;
 
-    if(!nextProps.gameOver[0] && nextProps.canvasSize === this.props.canvasSize) {
+    if(!nextProps.winner && nextProps.canvasSize === this.props.canvasSize) {
       this.drawTics(nextProps.gameStateArray, size, this.lastArr);
     } else if (nextProps.canvasSize !== this.props.canvasSize) {
       // special call to redraw all the old marks
       this.drawTics(this.lastArr, nextProps.canvasSize, 'resize');
-      console.log('RESIZE');
     }
   }
 
@@ -62,13 +59,11 @@ export default class Canvas extends Component {
 
       //if the array is empty, clear and draw a grid
       if(check[0] === -1 && check[1] === -1) {
-        console.log('array was empty');
         this.drawGrid(size);
       }
       else {
         //loop through the array and draw the marks in the proper locations
         //find the new location to mark
-        console.log('current', arr, 'last', lastArr);
         arr.forEach((ele, index) => {
           if(ele !== lastArr[index]) {
             type = ele;
@@ -92,7 +87,6 @@ export default class Canvas extends Component {
     let lineSpacing = Math.round(size / 3);
 
     // ctx.clearRect(0, 0, size, size);
-    console.log('cleared');
     // canvas styles
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 5;

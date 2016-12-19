@@ -30,7 +30,7 @@
     background-color: white;
     animation: 1s ease infinite load;
     border: 4px solid white;
-    border-top: 4px solid red; }
+    border-top: 4px solid salmon; }
 .gameover-content-container section .loading {
   opacity: 0;
   transition: opacity 1s; }
@@ -40,7 +40,7 @@
 @keyframes load {
   0% {
     transform: rotate(0deg);
-    border-top-color: red; }
+    border-top-color: salmon; }
   100% {
     transform: rotate(360deg); } }
 

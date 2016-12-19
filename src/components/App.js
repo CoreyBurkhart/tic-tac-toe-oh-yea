@@ -21,10 +21,9 @@ class App extends Component {
     this.state = {
       'started': false,
       'playerTurn': true,
-      'gameOver': [false, null],
+      'winner': false,
       'gameStateArray': util.emptyArray(),
       'canvasSize': window.innerHeight / 2,
-      'location': [null, null],
       'teams': {
         player: 'x',
         ai: 'o'
@@ -32,104 +31,73 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    window.addEventListener('resize',
-      (e) => {
-        console.log('resize');
-        let obj = {'canvasSize': util.getCanvasSize()}
-        this.setState(obj)
-      }
-    );
-  }
  //resets the state array and related vars
-  reset() {
-    this.setState({
-      'gameStateArray': util.emptyArray(),
-      'started': false,
-      'gameOver': [false, null]
-    })
-  }
 
   handleClick(event) {
-    //this should not happen EVERY click
-    if(this.state.playerTurn && this.state.started) {
-    let typeP = this.state.teams.player,
-        typeAi = this.state.teams.ai,
-        loc = util.getClickLocation(event),
-        box = util.find(loc, false, this.state.canvasSize),
-        ai = new Ai();
+    let loc = util.getClickLocation(event),
+        box = util.find(loc, false, this.state.canvasSize);
 
-      this.setState({
-        'gameStateArray': this.updateArray(this.state.gameStateArray, box, typeP), 'location': [box , loc]
-      },
-        () => {
-          this.testForWin(this.state.gameStateArray);
-          //just gets a number back
-          box = ai.chooseIndex(this.state.gameStateArray);
-          //actually makes a move and tests for a a win or draw
-          this.aiInterval = setInterval(
-            () => {this.aiMove(this.state.gameStateArray, box, typeAi)},
-            1000
-          );
-        }
-      );
+    //player move otherwise nothing
+    if(this.state.playerTurn && this.state.gameStateArray[box] === '') {
+      const {player, ai} = this.state.teams;
+      const AI = new Ai();
+
+      this.updateArray(this.state.gameStateArray, box, player)
+      box = AI.chooseIndex(this.state.gameStateArray);
+      window.setTimeout(() => {this.updateArray(this.state.gameStateArray, box, ai)}, 1500);
     }
   }
 
   updateArray(currentArray, box, type) {
-    if(currentArray[box] === '') {
-      currentArray[box] = type;
-
-      this.setState({'playerTurn': !this.state.playerTurn});
-    }
-
-    return currentArray;
+    currentArray[box] = type;
+    const newState = {
+      'playerTurn': !this.state.playerTurn,
+      'gameStateArray': currentArray
+     }
+    this.setState(newState, this.testForWin(currentArray));
   }
-
-  aiMove(arr, box, type) {
-    this.gameStateArray = this.updateArray(arr, box, type);
-    this.testForWin(this.gameStateArray);
-    clearInterval(this.aiInterval);
+  reset() {
+    this.setState({
+      'gameStateArray': util.emptyArray(),
+      'started': false,
+      'winner': false
+    })
   }
 
   testForWin(newStateArr) {
-
+    //win cases
     const CASES = {
-      //036 //147 //258
       vertical: [[0, 3, 6], [1,4,7], [2,5,8]],
-      //012 //345 //678
       horizontal: [[0,1,2], [3,4,5], [6,7,8]],
-      //048 //246
       diagonal: [[0,4,8], [2,4,6]]
     };
 
-    let gameOver = (result) => {
-      window.clearInterval(this.aiInterval)
-      this.setState({gameOver: [true, result], playerTurn: true});
-    }
-    gameOver = gameOver.bind(this);
-
-    //draw
-    if (!this.state.gameOver[0] && newStateArr.indexOf('') === -1) {
-      gameOver('draw');
-      return;
-    }
-
-    for(var i in CASES) {
-      for(var j in CASES[i]) {
-        let testArray = CASES[i][j].map((ele) => {
-          return newStateArr[ele];
-        });
-
-        if(testArray.indexOf('') === -1 && testArray[0] === testArray[1] && testArray[1] === testArray[2] ) {
-          gameOver(testArray[0] === this.state.teams.player ? 'player' : 'ai');
-          return;
+    let test = (gameArray, testIndices) => {
+      //if 3 in a row, return that letter
+      let winner = false;
+      testIndices.forEach((ele) => {
+        const string = gameArray[ele[0]] + gameArray[ele[1]] + gameArray[ele[2]]
+        if (/x{3}|o{3}/.test(string)) {
+          winner = string[0];
         }
-      }
+      })
+      return winner;
     }
+    let gameOver = (result) => {
+      this.setState({winner: result, playerTurn: true});
+    }
+    const n = newStateArr;
+    let winner = test(n, CASES.vertical) || test(n, CASES.horizontal) || test(n, CASES.diagonal);
+
+    if(winner === false && newStateArr.indexOf('') === -1) {
+      //game was a draw
+      gameOver('draw')
+    } else if(typeof winner === 'string') {
+      gameOver(winner)
+    }
+
+    return false;
   }
-
-
   //PROPS USED BY SETUP
   toggleStart(e) {
     this.setState({'started': !this.state.started});
@@ -138,31 +106,36 @@ class App extends Component {
   setTeam(team) {
     this.setState({'teams': {'player': team, 'ai': team === 'x' ? 'o' : 'x'}});
   }
-
   render() {
-    let gameover;
-
-    if (this.state.gameOver[0]) {
-      gameover = (<Gameover  gameOver={this.state.gameOver}>
-                    <button onClick={this.reset} >play again
-            </button>
-            </Gameover>)
-    } else {
-      gameover = null;
+    const s = this.state;
+    let winner;
+    if(s.winner !== s.teams.player) {
+      winner = 'player';
+    } else if(s.winner === s.teams.ai) {
+      winner = 'ai'
+    } else if(s.winner === 'draw') {
+      winner = s.winner;
     }
 
-    if (!this.state.started) {
+
+    if (typeof s.winner === 'string' ) {
+      return (
+        <Gameover  winner={winner}>
+          <button onClick={this.reset} >play again</button>
+        </Gameover>
+      )
+    } else if (!s.started) {
       return (
         <Setup start={this.toggleStart} setTeam={this.setTeam} />
       );
+    } else {
+      return (
+        <div className="App">
+          <Canvas handleClick={this.handleClick} winner={s.winner} location={s.location} canvasSize={s.canvasSize} gameStateArray={s.gameStateArray}  />
+          <TurnIndicator playerTurn={s.playerTurn} />
+        </div>
+      );
     }
-    return (
-      <div className="App">
-        <Canvas handleClick={this.handleClick} gameOver={this.state.gameOver} location={this.state.location} canvasSize={this.state.canvasSize} gameStateArray={this.state.gameStateArray}  />
-        <TurnIndicator playerTurn={this.state.playerTurn} />
-        {gameover}
-      </div>
-    );
   }
 }
 

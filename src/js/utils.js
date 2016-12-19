@@ -3,14 +3,9 @@
 export default class utils {
 
   static getClickLocation (event) {
-    let x,
-        y,
-        t = event.target;
+    const x = event.nativeEvent.offsetX,
+        y = event.nativeEvent.offsetY;
 
-    x = event.nativeEvent.offsetX;
-    y = event.nativeEvent.offsetY;
-
-    // console.log({x: x, y: y});
     return {x: x, y: y};
   }
 
@@ -87,7 +82,6 @@ export default class utils {
         }
       }
     }
-    // console.log('ran find');
   }
 
   static emptyArray() {
@@ -95,7 +89,6 @@ export default class utils {
       for(var i = 0; i < 9; i++) {
         a.push('');
       }
-      // console.log(a);
       return a;
     }
 
@@ -105,7 +98,6 @@ export default class utils {
 
       //size is the lesser of the 2
       let size = width > height ? height : width;
-      // console.log(size / 2);
       return size / 2;
     }
 }

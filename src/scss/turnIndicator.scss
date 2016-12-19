@@ -3,10 +3,8 @@
 #container-div {
   margin: 4rem auto;
   position: relative;
-  width: 50%;
+  width: 400px;
   background-color: transparent;
-  z-index: 10;
-
   label {
     display: inline-block;
     font-size: 2rem;
@@ -16,15 +14,5 @@
     width: 50%;
     height: 100%;
     z-index: 20;
-}
-
-  #toggle {
-    display: inline-block;
-    position: absolute;
-    z-index: -20;
-    top: 0;
-    left: 50%;
-    min-width: 50%;
-    transition: all .3s;
   }
 }
