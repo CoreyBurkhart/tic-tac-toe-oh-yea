@@ -18,7 +18,7 @@ export default class Gameover extends Component {
     })
   }
   async getGif(result) {
-    const BASE = 'http://api.giphy.com/v1/gifs/search?q=',
+    const BASE = 'https://api.giphy.com/v1/gifs/search?q=',
           KEY = '&api_key=dc6zaTOxFJmzC';
     let query;
 
