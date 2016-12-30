@@ -19,6 +19,7 @@ export default class utils {
 
     const _offset = Math.round(size / 25);
 
+    //i can't believe i wrote this... not proud of below, but it works.
     if(loc) {
       if(x < (size / 3)) {
         if (y < (size / 3)) {

@@ -52,7 +52,7 @@ export default class Gameover extends Component {
         <div className='gameover-content-container'>
           <section>
             <h1>{line[this.props.winner]}</h1>
-            <div id='loader' ref={(div => this.loader = div)} style={{width: this.width + 'px', height: this.height + 'px'}}>
+            <div id='loader' ref={(div => this.loader = div)} >
               <span />
             </div>
             <img className='loading' ref={(img => this.img = img)} onLoad={this.loadHandler.bind(this)} style={{display: 'none', position: 'absolute', top: '0', left: '0'}} alt='celebratory gif!'/>

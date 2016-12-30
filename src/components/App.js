@@ -44,7 +44,8 @@ class App extends Component {
 
       this.updateArray(this.state.gameStateArray, box, player)
       box = AI.chooseIndex(this.state.gameStateArray);
-      window.setTimeout(() => {this.updateArray(this.state.gameStateArray, box, ai)}, 1500);
+      window.setTimeout(() => {
+        this.updateArray(this.state.gameStateArray, box, ai)}, 1500);
     }
   }
 
@@ -84,7 +85,7 @@ class App extends Component {
       return winner;
     }
     let gameOver = (result) => {
-      this.setState({winner: result, playerTurn: true});
+      this.setState({winner: result});
     }
     const n = newStateArr;
     let winner = test(n, CASES.vertical) || test(n, CASES.horizontal) || test(n, CASES.diagonal);
@@ -92,10 +93,9 @@ class App extends Component {
     if(winner === false && newStateArr.indexOf('') === -1) {
       //game was a draw
       gameOver('draw')
-    } else if(typeof winner === 'string') {
+    } else if(winner) {
       gameOver(winner)
     }
-
     return false;
   }
   //PROPS USED BY SETUP
@@ -109,16 +109,15 @@ class App extends Component {
   render() {
     const s = this.state;
     let winner;
-    if(s.winner !== s.teams.player) {
+    if(s.winner === s.teams.player) {
       winner = 'player';
     } else if(s.winner === s.teams.ai) {
       winner = 'ai'
     } else if(s.winner === 'draw') {
-      winner = s.winner;
+      winner = 'draw';
     }
 
-
-    if (typeof s.winner === 'string' ) {
+    if (s.winner) {
       return (
         <Gameover  winner={winner}>
           <button onClick={this.reset} >play again</button>
